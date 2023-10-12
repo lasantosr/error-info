@@ -1,0 +1,19 @@
+[package]
+name = "error-info"
+description = "Centralized error information ready for internationalization"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+error-info-macros = { workspace = true }
+
+http   = { workspace = true }
+linkme = { workspace = true }
+serde  = { workspace = true, features = ["derive"] }

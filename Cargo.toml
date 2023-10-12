@@ -1,0 +1,29 @@
+[workspace]
+members = ["error-info", "error-info-macros"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/lasantosr/error-info"
+keywords = ["error", "info", "code"]
+categories = ["internationalization", "rust-patterns", "web-programming"]
+exclude = [".vscode/*", ".rustfmt.toml", ".taplo.toml"]
+
+[workspace.dependencies]
+error-info-macros = { version = "=0.1.0", path = "./error-info-macros" }
+
+darling           = "0.20"
+heck              = "0.4"
+http              = "0.2"
+linkme            = "0.3"
+macro-field-utils = "0.1"
+once_cell         = "1"
+proc-macro-error  = "1"
+proc-macro2       = "1"
+quote             = "1"
+regex             = "1"
+serde             = "1"
+syn               = "2"
