@@ -109,22 +109,41 @@ pub(crate) fn r#impl(input: DeriveInput) -> TokenStream {
         .collect();
 
     // Variant's summary
-    let summary_expr = variants.iter().map(|v| {
-        let status = &v.status;
-        let code = &v.ident.to_string().to_shouty_snake_case();
-        let raw_message = v.message.as_ref();
+    #[cfg(not(feature = "summary"))]
+    let summary_expr = TokenStream::default();
+    #[cfg(feature = "summary")]
+    let summary_expr = {
+        let summary_vec_expr = variants.iter().map(|v| {
+            let status = &v.status;
+            let code = &v.ident.to_string().to_shouty_snake_case();
+            let raw_message = v.message.as_ref();
+
+            quote!(
+                #crate_expr::ErrorInfoSummary {
+                    status: #status,
+                    code: #code,
+                    raw_message: #raw_message,
+                }
+            )
+        });
+
+        let enum_ident_snake = enum_ident.to_string().to_shouty_snake_case();
+        let enum_ident_snake = format_ident!("{enum_ident_snake}");
 
         quote!(
-            #crate_expr::ErrorInfoSummary {
-                status: #status,
-                code: #code,
-                raw_message: #raw_message,
+            #[automatically_derived]
+            impl #impl_generics #enum_ident #ty_generics #where_clause {
+                fn summaries() -> Vec<#crate_expr::ErrorInfoSummary> {
+                    vec![
+                        #( #summary_vec_expr ),*
+                    ]
+                }
             }
-        )
-    });
 
-    let enum_ident_snake = enum_ident.to_string().to_shouty_snake_case();
-    let enum_ident_snake = format_ident!("{enum_ident_snake}");
+            #[::linkme::distributed_slice(#crate_expr::ERROR_INFO_SUMMARY)]
+            static #enum_ident_snake: fn() -> Vec<#crate_expr::ErrorInfoSummary> = #enum_ident::summaries;
+        )
+    };
 
     // Implement trait
     quote!(
@@ -147,17 +166,6 @@ pub(crate) fn r#impl(input: DeriveInput) -> TokenStream {
                 match self #match_fields
             }
         }
-
-        #[automatically_derived]
-        impl #impl_generics #enum_ident #ty_generics #where_clause {
-            fn summaries() -> Vec<#crate_expr::ErrorInfoSummary> {
-                vec![
-                    #( #summary_expr ),*
-                ]
-            }
-        }
-
-        #[::linkme::distributed_slice(#crate_expr::ERROR_INFO_SUMMARY)]
-        static #enum_ident_snake: fn() -> Vec<#crate_expr::ErrorInfoSummary> = #enum_ident::summaries;
+        #summary_expr
     )
 }

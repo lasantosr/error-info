@@ -10,7 +10,7 @@ use proc_macro_error::proc_macro_error;
 ///
 /// Each variant must provide an status and a message, which can use variant's fields.
 ///
-/// It requires the `linkme` crate to be available.
+/// If `summary` feature is enabled, it requires the `linkme` crate to be available.
 ///
 /// ## Examples
 /// ``` ignore

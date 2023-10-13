@@ -3,7 +3,7 @@ members = ["error-info", "error-info-macros"]
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "Apache-2.0"
 readme = "README.md"
@@ -13,7 +13,8 @@ categories = ["internationalization", "rust-patterns", "web-programming"]
 exclude = [".vscode/*", ".rustfmt.toml", ".taplo.toml"]
 
 [workspace.dependencies]
-error-info-macros = { version = "=0.1.0", path = "./error-info-macros" }
+error-info        = { path = "./error-info" }
+error-info-macros = { version = "=0.2.0", path = "./error-info-macros" }
 
 darling           = "0.20"
 heck              = "0.4"

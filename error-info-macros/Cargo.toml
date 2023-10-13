@@ -14,6 +14,12 @@ categories.workspace = true
 [lib]
 proc-macro = true
 
+[features]
+default = []
+
+# Appends error summaries to the global array using linkme
+summary = []
+
 [dependencies]
 darling           = { workspace = true }
 heck              = { workspace = true }

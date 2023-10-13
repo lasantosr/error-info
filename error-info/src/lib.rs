@@ -29,6 +29,7 @@ pub trait ErrorInfo {
     }
 }
 
+#[cfg(feature = "summary")]
 #[derive(Debug, serde::Serialize)]
 /// Summary of an [ErrorInfo]
 pub struct ErrorInfoSummary {
@@ -43,10 +44,12 @@ pub struct ErrorInfoSummary {
     pub raw_message: &'static str,
 }
 
+#[cfg(feature = "summary")]
 /// Array to collect all linked error info summaries, it shouldn't be used directly. Instead use `error_info::summary`
 #[linkme::distributed_slice]
 pub static ERROR_INFO_SUMMARY: [fn() -> Vec<ErrorInfoSummary>] = [..];
 
+#[cfg(feature = "summary")]
 /// Retrieves a summary of every [ErrorInfo] declared, sorted by status and code.
 ///
 /// This could be exported to provide the base i18n file for errors.
@@ -60,6 +63,7 @@ pub fn summary() -> Vec<ErrorInfoSummary> {
     ret
 }
 
+#[cfg(feature = "summary")]
 fn serialize_status<S>(status: &StatusCode, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,

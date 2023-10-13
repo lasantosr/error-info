@@ -11,9 +11,19 @@ categories.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = []
+
+# Appends error summaries to the global array using linkme
+summary = ["error-info-macros/summary", "dep:linkme", "dep:serde"]
+
 [dependencies]
 error-info-macros = { workspace = true }
 
-http   = { workspace = true }
-linkme = { workspace = true }
-serde  = { workspace = true, features = ["derive"] }
+http = { workspace = true }
+
+linkme = { workspace = true, optional = true }
+serde  = { workspace = true, optional = true, features = ["derive"] }
+
+[dev-dependencies]
+error-info = { workspace = true, features = ["summary"] }

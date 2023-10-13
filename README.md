@@ -30,7 +30,8 @@ assert_eq!(
 );
 ```
 
-Or collect every error declared in any crate, which simplifies the error management for web services:
+Or collect every error declared in any crate (with `summary` feature enabled), which simplifies the error management for
+web services:
 
 ```rs
 let summary = error_info::summary();
